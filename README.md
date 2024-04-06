@@ -28,7 +28,7 @@ pmx.json
 }
 ```
 
-Create the file and run "node pmx-launcher.js run" !!
+Create the file and run "node pmx-launcher.js run [Exclude Target Name]" !!
 
 ## Commands
 - list
