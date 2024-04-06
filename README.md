@@ -1,13 +1,11 @@
-[![crates.io](https://img.shields.io/crates/v/httparse.svg)](https://crates.io/crates/AthenaEngine)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE-MIT)
 
 # PMx Launcher
 Simple launcher!!!
 
 ## How to use?
-```json
 pmx.json
-
+```json
 {
   "target": [
     {
@@ -32,6 +30,11 @@ pmx.json
 
 Create the file and run "node pmx-launcher.js run" !!
 
+## Commands
+- list
+- run
+
+**Ex) node pmx-launcher.js <run> or <list>**
     
 # License
 MIT License
