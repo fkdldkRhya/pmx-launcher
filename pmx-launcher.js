@@ -70,9 +70,20 @@ function runPipeline(config, exclude) {
 
   console.log("\x1b[36m%s\x1b[0m", "[PMx]\x1b[33m PMx Runner Start");
 
+  // 정렬
+  data.sort((a, b) => {
+    if (a.priority < b.priority) {
+      return -1;
+    }
+    if (a.priority > b.priority) {
+      return 1;
+    }
+    return 0;
+  });
+
   // Build
   data.forEach((target) => {
-    const { build, name, command, args, workdir } = target;
+    const { build, name, command, args, workdir, delay } = target;
 
     if (exclude && exclude.includes(name)) {
       console.log(
@@ -99,7 +110,7 @@ function runPipeline(config, exclude) {
           );
 
           if (code === 0) {
-            runner(name, command, args, workdir);
+            runner(name, command, args, workdir, delay);
           }
         });
 
@@ -110,29 +121,38 @@ function runPipeline(config, exclude) {
           );
         });
       } else {
-        runner(name, command, args, workdir);
+        runner(name, command, args, workdir, delay);
       }
     }
   });
 }
 
-function runner(name, command, args, workdir) {
-  const child = require("child_process").spawn(command, args, {
-    cwd: workdir,
-    stdio: "inherit",
-  });
+function runner(name, command, args, workdir, delay = 0) {
+  console.log("\x1b[36m%s\x1b[0m", `[PMx RUNNER]\x1b[33m Delay ${delay}ms`);
 
-  child.on("exit", (code) => {
+  setTimeout(() => {
     console.log(
       "\x1b[36m%s\x1b[0m",
-      `[PMx RUNNER]\x1b[33m Child process ${name} exited with code ${code}`
+      `[PMx RUNNER]\x1b[33m Run ${name} ==> ${command} ${args}`
     );
-  });
 
-  child.on("error", (err) => {
-    console.error(
-      "\x1b[36m%s\x1b[0m",
-      `[PMx RUNNER]\x1b[33m Child process ${name} error: ${err}`
-    );
-  });
+    const child = require("child_process").spawn(command, args, {
+      cwd: workdir,
+      stdio: "inherit",
+    });
+
+    child.on("exit", (code) => {
+      console.log(
+        "\x1b[36m%s\x1b[0m",
+        `[PMx RUNNER]\x1b[33m Child process ${name} exited with code ${code}`
+      );
+    });
+
+    child.on("error", (err) => {
+      console.error(
+        "\x1b[36m%s\x1b[0m",
+        `[PMx RUNNER]\x1b[33m Child process ${name} error: ${err}`
+      );
+    });
+  }, delay);
 }
