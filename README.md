@@ -22,7 +22,9 @@ pmx.json
         "-DPMX_PROFILE_ENV=production",
         "eureka_server-0.0.1-SNAPSHOT.jar"
       ],
-      "workdir": "/Users/user/Desktop/my-project/eureka_server/build/libs"
+      "workdir": "/Users/user/Desktop/my-project/eureka_server/build/libs",
+      "priority": 0,
+      "delay": 0
     }
   ]
 }
